@@ -7,8 +7,10 @@ namespace RateMyAir.Common.Interfaces.Clients
 {
     public interface IRateMyAirHttpClient
     {
-        Task<AirQualityDtoOut> GetLastAirQualityAsync(string url);
-        Task<List<AirQualityDtoOut>> GetAirQualityAsync(string url, DateTime fromDate, DateTime toDate);
-        Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync(string url, DateTime fromDate, DateTime toDate);
+        Task<AirQualityDtoOut> GetLastAirQualityAsync();
+        Task<List<AirQualityDtoOut>> GetAirQualityAsync();
+        Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync();
+        Task<List<AirQualityDtoOut>> GetAirQualityAsync(DateTime fromDate, DateTime toDate);
+        Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync(DateTime fromDate, DateTime toDate);
     }
 }

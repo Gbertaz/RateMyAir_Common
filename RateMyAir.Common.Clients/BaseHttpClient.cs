@@ -1,6 +1,5 @@
 ﻿using RateMyAir.Common.Interfaces.Clients;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
 
@@ -8,22 +7,27 @@ namespace RateMyAir.Common.Clients
 {
     public class BaseHttpClient : IBaseHttpClient
     {
-        private readonly HttpClient _client;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private string _clientName;
 
-        public BaseHttpClient(HttpClient client)
+        public BaseHttpClient(IHttpClientFactory httpClientFactory, string clientName)
         {
-            _client = client;
+            _httpClientFactory = httpClientFactory;
+            _clientName = clientName;
         }
 
-        public async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken)
+        public async Task<T> GetAsync<T>(string endpoint)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            using (var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+            var httpClient = _httpClientFactory.CreateClient(_clientName);
+            var httpResponseMessage = await httpClient.GetAsync(endpoint);
+            var options = new JsonSerializerOptions
             {
-                response.EnsureSuccessStatusCode();
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<T>(jsonString);
-            }
+                PropertyNameCaseInsensitive = true
+            };
+
+            //if (httpResponseMessage.IsSuccessStatusCode)
+            using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
+            return await JsonSerializer.DeserializeAsync<T>(contentStream, options);
         }
     
     }

@@ -1,10 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace RateMyAir.Common.Interfaces.Clients
 {
     public interface IBaseHttpClient
     {
-        Task<T> GetAsync<T>(string url, CancellationToken cancellationToken);
+        Task<T> GetAsync<T>(string endpoint);
     }
 }

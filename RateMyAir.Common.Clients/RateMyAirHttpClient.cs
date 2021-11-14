@@ -2,33 +2,40 @@
 using RateMyAir.Common.Interfaces.Clients;
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace RateMyAir.Common.Clients
 {
-    public class RateMyAirHttpClient : IRateMyAirHttpClient
+    public class RateMyAirHttpClient : BaseHttpClient, IRateMyAirHttpClient
     {
-        private readonly IBaseHttpClient _baseClient;
+        public RateMyAirHttpClient(IHttpClientFactory httpClientFactory) 
+            : base(httpClientFactory, "RateMyAirClient") { }
 
-        public RateMyAirHttpClient(IBaseHttpClient baseClient)
+        public async Task<AirQualityDtoOut> GetLastAirQualityAsync()
         {
-            _baseClient = baseClient;
+            return (await GetAsync<Response<AirQualityDtoOut>>("airquality/last")).Data;
         }
 
-        public async Task<AirQualityDtoOut> GetLastAirQualityAsync(string url)
+        public async Task<List<AirQualityDtoOut>> GetAirQualityAsync()
         {
-            return (await _baseClient.GetAsync<Response<AirQualityDtoOut>>(url, new CancellationToken())).Data;
+            return (await GetAsync<Response<List<AirQualityDtoOut>>>("airquality")).Data;
         }
 
-        public async Task<List<AirQualityDtoOut>> GetAirQualityAsync(string url, DateTime fromDate, DateTime toDate)
+        public async Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync()
         {
-            return (await _baseClient.GetAsync<Response<List<AirQualityDtoOut>>>(url, new CancellationToken())).Data;
+            return (await GetAsync<Response<List<AirQualityIndexDtoOut>>>("airquality/dailyindex")).Data;
         }
 
-        public async Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync(string url, DateTime fromDate, DateTime toDate)
+        public async Task<List<AirQualityDtoOut>> GetAirQualityAsync(DateTime fromDate, DateTime toDate)
         {
-            return (await _baseClient.GetAsync<Response<List<AirQualityIndexDtoOut>>>(url, new CancellationToken())).Data;
+            return (await GetAsync<Response<List<AirQualityDtoOut>>>("airquality")).Data;
+        }
+
+        public async Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync(DateTime fromDate, DateTime toDate)
+        {
+            string endpoint = String.Format("airquality/dailyindex?fromDate={0}", fromDate.ToString("dd-MM-yyyy"));
+            return (await GetAsync<Response<List<AirQualityIndexDtoOut>>>(endpoint)).Data;
         }
     }
 
