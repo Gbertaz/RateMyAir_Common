@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 
-namespace RateMyAir.Common.Interfaces.Clients
+namespace RateMyAir.Common.Interfaces.Services
 {
-    public interface IRateMyAirHttpClient
+    public interface IRateMyAirHttpService
     {
         Task<AirQualityDtoOut> GetLastAirQualityAsync();
         Task<List<AirQualityDtoOut>> GetAirQualityAsync();

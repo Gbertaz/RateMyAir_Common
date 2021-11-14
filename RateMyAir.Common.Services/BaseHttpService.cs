@@ -1,16 +1,16 @@
-﻿using RateMyAir.Common.Interfaces.Clients;
+﻿using RateMyAir.Common.Interfaces.Services;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace RateMyAir.Common.Clients
+namespace RateMyAir.Common.Services
 {
-    public class BaseHttpClient : IBaseHttpClient
+    public class BaseHttpService : IBaseHttpService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private string _clientName;
 
-        public BaseHttpClient(IHttpClientFactory httpClientFactory, string clientName)
+        public BaseHttpService(IHttpClientFactory httpClientFactory, string clientName)
         {
             _httpClientFactory = httpClientFactory;
             _clientName = clientName;
@@ -29,6 +29,6 @@ namespace RateMyAir.Common.Clients
             using var contentStream = await httpResponseMessage.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<T>(contentStream, options);
         }
-    
+
     }
 }

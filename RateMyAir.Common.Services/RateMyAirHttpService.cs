@@ -1,15 +1,15 @@
 ﻿using RateMyAir.Common.Entities.DTO;
-using RateMyAir.Common.Interfaces.Clients;
+using RateMyAir.Common.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace RateMyAir.Common.Clients
+namespace RateMyAir.Common.Services
 {
-    public class RateMyAirHttpClient : BaseHttpClient, IRateMyAirHttpClient
+    public class RateMyAirHttpService : BaseHttpService, IRateMyAirHttpService
     {
-        public RateMyAirHttpClient(IHttpClientFactory httpClientFactory) 
+        public RateMyAirHttpService(IHttpClientFactory httpClientFactory)
             : base(httpClientFactory, "RateMyAirClient") { }
 
         public async Task<AirQualityDtoOut> GetLastAirQualityAsync()
@@ -38,5 +38,4 @@ namespace RateMyAir.Common.Clients
             return (await GetAsync<Response<List<AirQualityIndexDtoOut>>>(endpoint)).Data;
         }
     }
-
 }

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace RateMyAir.Common.Interfaces.Clients
+namespace RateMyAir.Common.Interfaces.Services
 {
-    public interface IBaseHttpClient
+    public interface IBaseHttpService
     {
         Task<T> GetAsync<T>(string endpoint);
     }
