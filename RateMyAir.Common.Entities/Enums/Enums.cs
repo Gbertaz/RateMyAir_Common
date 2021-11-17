@@ -9,5 +9,6 @@ namespace RateMyAir.Common.Entities.Enums
     public class Enums
     {
         public enum Pollutants { Pm25, Pm10 }
+        public enum HttpClients { RateMyAir }
     }
 }
