@@ -20,7 +20,7 @@ namespace RateMyAir.Common.Entities.RequestFeatures
             }
         }
     }
-
+    
     public class GetAirQualityParameters : RequestParameters
     {
         public DateTime FromDate { get; set; } = DateTime.Today.AddDays(-1).AddSeconds(1);

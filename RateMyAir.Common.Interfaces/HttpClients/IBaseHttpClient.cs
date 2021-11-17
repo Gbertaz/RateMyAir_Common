@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace RateMyAir.Common.Interfaces.Services
+namespace RateMyAir.Common.Interfaces.HttpClients
 {
-    public interface IBaseHttpRestService
+    public interface IBaseHttpClient
     {
         protected abstract IHttpClientFactory HttpClientFactory { get; }
         protected abstract string ClientName { get; }
