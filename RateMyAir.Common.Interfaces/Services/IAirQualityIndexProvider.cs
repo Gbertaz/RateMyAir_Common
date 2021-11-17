@@ -8,5 +8,6 @@ namespace RateMyAir.Common.Interfaces.Services
     public interface IAirQualityIndexProvider
     {
         Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync();
+        Task<List<AirQualityIndexDtoOut>> GetAirQualityIndexAsync(IParametersFormatter endpointProvider);
     }
 }
